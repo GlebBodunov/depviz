@@ -128,11 +128,3 @@ func (c *Config) validateMaxDepth() error {
 	}
 	return nil
 }
-
-func (c *Config) Print() {
-	fmt.Printf("package_name: %s\n", c.PackageName)
-	fmt.Printf("repository: %s\n", c.Repository)
-	fmt.Printf("test_mode: %t\n", *c.TestMode)
-	fmt.Printf("output_file: %s\n", c.OutputFile)
-	fmt.Printf("max_depth: %d\n", c.MaxDepth)
-}
