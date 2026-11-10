@@ -1,0 +1,5 @@
+package_name: A
+repository: tests/testdata/cycle.txt
+test_mode: true
+output_file: graph.png
+max_depth: 10

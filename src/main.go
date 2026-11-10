@@ -1,13 +1,14 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
 
 	"depviz/src/apk"
 	"depviz/src/config"
+	"depviz/src/graph"
+	"depviz/src/testrepo"
 )
 
 const defaultConfigPath = "config.yaml"
@@ -27,20 +28,21 @@ func run(configPath string) error {
 	if err != nil {
 		return err
 	}
-	if *cfg.TestMode {
-		return errors.New("тестовый режим будет реализован на этапе 3")
-	}
-	idx, err := apk.FetchIndex(cfg.Repository)
+	source, err := openSource(cfg)
 	if err != nil {
 		return err
 	}
-	deps, err := idx.DirectDeps(cfg.PackageName)
+	g, err := graph.Build(source, cfg.PackageName, cfg.MaxDepth)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Прямые зависимости пакета %s:\n", cfg.PackageName)
-	for _, dep := range deps {
-		fmt.Println("  " + dep)
-	}
+	g.Print()
 	return nil
+}
+
+func openSource(cfg *config.Config) (graph.Source, error) {
+	if *cfg.TestMode {
+		return testrepo.Load(cfg.Repository)
+	}
+	return apk.FetchIndex(cfg.Repository)
 }
