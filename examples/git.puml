@@ -1,0 +1,22 @@
+@startuml
+[git] #LightBlue
+[git] --> [musl]
+[git] --> [libcurl]
+[git] --> [libexpat]
+[git] --> [pcre2]
+[git] --> [zlib]
+[libcurl] --> [ca-certificates]
+[libcurl] --> [brotli-libs]
+[libcurl] --> [musl]
+[libcurl] --> [c-ares]
+[libcurl] --> [libcrypto3]
+[libcurl] --> [libidn2]
+[libcurl] --> [nghttp2-libs]
+[libcurl] --> [libpsl]
+[libcurl] --> [libssl3]
+[libcurl] --> [zlib]
+[libcurl] --> [zstd-libs]
+[zlib] --> [musl]
+[libexpat] --> [musl]
+[pcre2] --> [musl]
+@enduml

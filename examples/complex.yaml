@@ -1,0 +1,5 @@
+package_name: A
+repository: tests/testdata/complex.txt
+test_mode: true
+output_file: examples/complex.png
+max_depth: 10

@@ -10,6 +10,7 @@ import (
 	"depviz/src/config"
 	"depviz/src/graph"
 	"depviz/src/testrepo"
+	"depviz/src/viz"
 )
 
 const defaultConfigPath = "config.yaml"
@@ -42,7 +43,7 @@ func run(configPath string, reverse bool) error {
 		return err
 	}
 	g.Print("Граф зависимостей", "->")
-	return nil
+	return visualize(g, cfg.OutputFile)
 }
 
 func openSource(cfg *config.Config) (graph.Lister, error) {
@@ -64,5 +65,16 @@ func printReverse(source graph.Lister, cfg *config.Config) error {
 		return nil
 	}
 	fmt.Printf("От пакета %s зависят: %s\n", cfg.PackageName, strings.Join(reached, ", "))
+	return nil
+}
+
+func visualize(g *graph.Graph, imagePath string) error {
+	source := viz.PlantUML(g)
+	fmt.Println("\nОписание графа на PlantUML:")
+	fmt.Print(source)
+	if err := viz.Save(source, imagePath); err != nil {
+		return err
+	}
+	fmt.Printf("\nОписание сохранено в %s, изображение — в %s\n", viz.SourcePath(imagePath), imagePath)
 	return nil
 }

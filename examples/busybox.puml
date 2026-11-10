@@ -1,0 +1,4 @@
+@startuml
+[busybox] #LightBlue
+[busybox] --> [musl]
+@enduml

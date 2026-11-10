@@ -1,0 +1,14 @@
+@startuml
+[A] #LightBlue
+[A] --> [B]
+[A] --> [C]
+[B] --> [D]
+[B] --> [E]
+[D] -[#red]-> [B]
+[E] --> [G]
+[G] -[#red]-> [A]
+[G] --> [X]
+[C] --> [E]
+[C] --> [F]
+[F] -[#red]-> [F]
+@enduml
