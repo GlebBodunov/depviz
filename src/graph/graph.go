@@ -82,15 +82,19 @@ func (b *builder) addEdge(from, to string) {
 	b.graph.Edges[from] = append(b.graph.Edges[from], to)
 }
 
-func (g *Graph) Print() {
-	fmt.Printf("Граф зависимостей пакета %s:\n", g.Root)
+func (g *Graph) Reached() []string {
+	return g.Nodes[1:]
+}
+
+func (g *Graph) Print(title, arrow string) {
+	fmt.Printf("%s пакета %s:\n", title, g.Root)
 	for _, node := range g.Nodes {
 		if deps := g.Edges[node]; len(deps) > 0 {
-			fmt.Printf("  %s -> %v\n", node, deps)
+			fmt.Printf("  %s %s %v\n", node, arrow, deps)
 		}
 	}
 	for _, cycle := range g.Cycles {
-		fmt.Printf("Обнаружен цикл: %s -> %s\n", cycle.From, cycle.To)
+		fmt.Printf("Обнаружен цикл: %s %s %s\n", cycle.From, arrow, cycle.To)
 	}
 	for _, name := range g.Missing {
 		fmt.Printf("Пакет %s не найден в репозитории\n", name)

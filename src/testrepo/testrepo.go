@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -67,4 +68,13 @@ func (r *Repo) DirectDeps(name string) ([]string, error) {
 		return nil, fmt.Errorf("пакет %q не найден в тестовом репозитории", name)
 	}
 	return deps, nil
+}
+
+func (r *Repo) Names() []string {
+	names := make([]string, 0, len(r.deps))
+	for name := range r.deps {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	return names
 }

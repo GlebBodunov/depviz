@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"sort"
 	"strings"
 )
 
@@ -109,4 +110,13 @@ func (idx *Index) DirectDeps(name string) ([]string, error) {
 		deps = append(deps, resolved)
 	}
 	return deps, nil
+}
+
+func (idx *Index) Names() []string {
+	names := make([]string, 0, len(idx.Packages))
+	for name := range idx.Packages {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	return names
 }

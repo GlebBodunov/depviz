@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"depviz/src/apk"
+	"depviz/src/graph"
 )
 
 const sampleIndex = `C:Q1abc=
@@ -84,5 +85,16 @@ func TestReadArchive(t *testing.T) {
 func TestReadArchiveInvalid(t *testing.T) {
 	if _, err := apk.ReadArchive(strings.NewReader("not an archive")); err == nil {
 		t.Error("ожидалась ошибка для некорректного архива")
+	}
+}
+
+func TestReverseApk(t *testing.T) {
+	idx, _ := apk.ParseIndex(strings.NewReader(sampleIndex))
+	g, err := graph.Build(graph.Reverse(idx), "musl", unlimitedDepth)
+	if err != nil {
+		t.Fatalf("неожиданная ошибка: %v", err)
+	}
+	if !reflect.DeepEqual(g.Reached(), []string{"busybox", "curl"}) {
+		t.Errorf("от musl зависят %v, ожидалось [busybox curl]", g.Reached())
 	}
 }
